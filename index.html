@@ -1,0 +1,231 @@
+<html lang="en">
+
+<head>
+<link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+  <link href="./css/style.css" rel="stylesheet"/>
+
+<!--   <script type="text/javascript" src="./js/script.js" ></script>
+ -->  <title>Ckeckpoint shopping cart</title>
+
+</head>
+
+<body>
+  <main>
+    <div class="basket">
+      <div class="basket-labels">
+        <ul>
+          <li class="item item-heading">Product details</li>
+          <li class="price">Price</li>
+          <li class="quantity">Quantity</li>
+        </ul>
+      </div>
+      <div class="cart-items">
+        <div class="basket-product">
+          <div class="item">
+            <div class="product-image">
+              <div id="like">
+                <i class="fas fa-heart like"></i>
+              </div>
+              <img src="images/01.jpg" alt="" class="product-frame">
+            </div>
+            <div class="product-details">
+              <h1><strong><span class="item-quantity"></span> simple</strong> bavette</h1>
+              <p>Product Code - 232321939</p>
+            </div>
+          </div>
+          <div class="price">dt26.00</div>
+          <div class="quantity">
+            <input type="number" value="1" min="1" class="quantity-field">
+          </div>
+          <div class="btn-remove">
+            <button>Remove</button>
+          </div>
+        </div>
+        <div class="basket-product">
+          <div class="item">
+            <div class="product-image">
+              <div id="like">
+                <i class="fas fa-heart like"></i>
+              </div>
+              <img src="images/02.jpg" alt="" class="product-frame">
+            </div>
+            <div class="product-details">
+              <h1><strong><span class="item-quantity"></span> simple</strong> bavette</h1>
+              <p>Product Code - 232321939</p>
+            </div>
+          </div>
+          <div class="price">dt26.00</div>
+          <div class="quantity">
+            <input type="number" value="1" min="1" class="quantity-field">
+          </div>
+          <div class="btn-remove">
+            <button>Remove</button>
+          </div>
+        </div>
+        <div class="basket-product">
+          <div class="item">
+            <div class="product-image">
+              <div id="like">
+                <i class="fas fa-heart like"></i>
+              </div>
+              <img src="images/03.jpg" alt="" class="product-frame">
+            </div>
+            <div class="product-details">
+              <h1><strong><span class="item-quantity"></span> simple</strong> bavette</h1>
+              <p>Product Code - 232321939</p>
+            </div>
+          </div>
+          <div class="price">dt26.00</div>
+          <div class="quantity">
+            <input type="number" value="1" min="1" class="quantity-field">
+          </div>
+          <div class="btn-remove">
+            <button>Remove</button>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+
+    <aside>
+      <div class="summary">
+        <div class="summary-total-items"><span class="total-items"></span>Order Summary</div>
+        <div class="summary-subtotal">
+          <div class="subtotal-title">Subtotal</div>
+          <div class="subtotal-value final-value" id="basket-subtotal">dt78</div>
+          <div class="summary-promo hide">
+            <div class="promo-title">Promotion</div>
+            <div class="promo-value final-value" id="basket-promo"></div>
+          </div>
+        </div>
+        <div class="summary-delivery">
+          <select name="delivery-collection" class="summary-delivery-selection">
+              <option value="0" selected="selected">Kind of Delivery</option>
+             <option value="collection">Standard Delivery</option>
+             <option value="first-class">Express Delivery</option>
+          </select>
+        </div>
+        <div class="summary-total">
+          <div class="total-title">Total</div>
+          <div class="total-value final-value" id="basket-total">dt0</div>
+        </div>
+        <div id="done" class="summary-checkout">
+          <button class="checkout-cta">Checkout</button>
+        </div>
+          <br>
+      </div>
+    </aside>
+    <br>
+    <aside class="confirmation">
+      <div class="summary">
+        <div class="summary-total-items"><span class="total-items"></span>confirm your purchase</div>
+        <br>
+        <div class="formular">
+          <form>
+            <label>FUll Name</label><br>
+            <input type="text" /><br><br>
+            <label>Email</label><br>
+            <input type="email" /><br><br>
+          </form>
+
+        </div>
+        
+        <div id="done" class="summary-checkout">
+          <button class="checkout-cta">Confirm</button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script type="text/javascript">
+    console.log("running")
+
+if (document.readyState == "loading") {
+  document.addEventListener("DOMContentLoaded", ready)
+} else {
+  ready()
+}
+
+function ready(){
+  var removeCartItemButtons = document.getElementsByClassName("btn-remove")
+console.log(removeCartItemButtons)
+
+for (var i = 0; i < removeCartItemButtons.length; i++) {
+  var button = removeCartItemButtons[i]
+  button.addEventListener("click", removeCartItem)
+}
+let quantityInputs = document.getElementsByClassName("quantity-field")
+for (var i = 0; i < quantityInputs.length; i++) {
+  let input = quantityInputs[i]
+  input.addEventListener("change", quantityChanged)
+}
+}
+
+function quantityChanged(event){
+  let input = event.target
+  if (isNaN(input.value) || input.value <= 0) {
+    input = 1
+  }
+  updateCartTotal()
+}
+
+function removeCartItem(event){
+  var buttonClicked = event.target
+    buttonClicked.parentElement.parentElement.remove()
+    updateCartTotal()
+}
+
+
+
+function updateCartTotal(){
+  let cartItemContainer = document.getElementsByClassName("cart-items")[0]
+  let cartRows = cartItemContainer.getElementsByClassName("basket-product")
+  let total = 0 
+  for (var i = 0; i < cartRows.length; i++) {
+    let basketProduct = cartRows[i]
+    let priceElement = basketProduct.getElementsByClassName("price")[0]
+    let quantityElement = basketProduct.getElementsByClassName("quantity-field")[0]
+    let price = parseFloat(priceElement.innerText.replace("dt", ""))
+    let quantity = quantityElement.value
+    total = total + (price * quantity)
+  }
+  document.getElementsByClassName("subtotal-value")[0].innerText = "dt " + total
+}
+
+
+// const btn = document.querySelector(".summary-checkout button"); 
+
+// function alertFunction(){
+//   alert("you should receive a confirmation email shortly.");
+// }
+// btn.onclick = alertFunction;
+
+function myFunction() {
+  document.getElementById("done").innerHTML = "Paragraph changed!";
+}
+
+//like button
+
+const likebtns = Array.from(document.getElementsByClassName("like"))
+
+function handleLike(event){
+	event.target.classList.toggle("red-hart") 
+}
+
+likebtns.forEach(function (btnLike){
+	btnLike.addEventListener("click", handleLike)
+})
+
+  </script>
+
+</body>
+
+</html>
